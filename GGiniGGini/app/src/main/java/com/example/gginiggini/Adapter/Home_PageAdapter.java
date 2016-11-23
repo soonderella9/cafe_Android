@@ -12,6 +12,9 @@ public class Home_PageAdapter extends FragmentStatePagerAdapter {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }
+    public Home_PageAdapter(FragmentManager fm) {
+        super(fm);
+    }
     @Override
     public Fragment getItem(int position) {
 

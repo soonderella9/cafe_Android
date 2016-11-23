@@ -1,6 +1,8 @@
 package com.example.gginiggini.Activity;
 
 import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,18 +17,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.Adapter.Home_PageAdapter;
+import com.example.gginiggini.Adapter.RecyclerAdapter;
 import com.example.gginiggini.Fragment.MainTab_Cafe1;
+import com.example.gginiggini.Fragment.WeeklyMenu;
+import com.example.gginiggini.Item.Item_Menu;
 import com.example.gginiggini.R;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 
 public class Home extends AppCompatActivity {
     private DrawerLayout dlDrawer;
@@ -39,6 +50,8 @@ public class Home extends AppCompatActivity {
     private ImageView rightArrow;
     private ImageView leftArrow;
     private TextView textDate;
+    private int nWeek;
+    private int checkDate=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +77,7 @@ public class Home extends AppCompatActivity {
 
         textDate = (TextView) findViewById(R.id.text_date);
         Calendar cal = Calendar.getInstance();
-        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        nWeek = cal.get(Calendar.DAY_OF_WEEK);
         if (nWeek == 1) {
              textDate.setText("일");
         } else if (nWeek == 2) {
@@ -83,15 +96,50 @@ public class Home extends AppCompatActivity {
         rightArrow = (ImageView) findViewById(R.id.rightarrow);
         leftArrow = (ImageView) findViewById(R.id.leftarrow);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(nWeek!=7) {
+                    nWeek = nWeek + 1;
+                    checkDate = checkDate +1;
+                    textDate.setText(doDayOfWeek(nWeek));
+                    FragmentManager fragmentManager = getFragmentManager();
+
+                    //TestFragment frament = new TestFragment();
+                    WeeklyMenu newFr = new WeeklyMenu();
+                    Bundle bundle = new Bundle();
+                    newFr.setArguments(bundle);
+
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.sdfa, newFr);
+                    fragmentTransaction.commit();
+                    //viewPager.setAdapter();
+                    //viewPager.setCurrentItem(newFr);
+                    //viewPager.setVisibility(INVISIBLE);
+                }
             }
         });
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(nWeek!=1) {
+                    nWeek = nWeek - 1;
+                    checkDate = checkDate -1;
+                    textDate.setText(doDayOfWeek(nWeek));
+                        FragmentManager fragmentManager = getFragmentManager();
+
+                        //TestFragment frament = new TestFragment();
+                        WeeklyMenu newFr = new WeeklyMenu();
+                        Bundle bundle = new Bundle();
+                        newFr.setArguments(bundle);
+
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.sdfa, newFr);
+                        fragmentTransaction.commit();
+
+                    //viewPager.setAdapter(new Home_PageAdapter(fragmentManager);
+                    //viewPager.setVisibility(INVISIBLE);
+                }
             }
         });
         //Creating Home_PageAdapter adapter
@@ -166,6 +214,27 @@ public class Home extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         dtToggle.onConfigurationChanged(newConfig);
+    }
+
+    private String doDayOfWeek(int date ) {
+        Calendar cal = Calendar.getInstance();
+        String strWeek=null;
+        if (date == 1) {
+            strWeek = "일";
+        } else if (date == 2) {
+            strWeek = "월";
+        } else if (date == 3) {
+            strWeek = "화";
+        } else if (date == 4) {
+            strWeek = "수";
+        } else if (date == 5) {
+            strWeek = "목";
+        } else if (date == 6) {
+            strWeek = "금";
+        } else if (date == 7) {
+            strWeek = "토";
+        }
+        return strWeek;
     }
 
     @Override
