@@ -1,11 +1,13 @@
 package com.example.gginiggini.Item;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by 이용준 on 2016-11-05.
  */
 
 public class Item_Menu {
-    private String mPhoto;
+    private Drawable mPhoto;
     private String lPhoto;
     private String mName;
     private String lCount;
@@ -13,11 +15,11 @@ public class Item_Menu {
     private String score;
     private String bestReply;
 
-    public String getmPhoto() {
+    public Drawable getmPhoto() {
         return mPhoto;
     }
 
-    public void setmPhoto(String mPhoto) {
+    public void setmPhoto(Drawable mPhoto) {
         this.mPhoto = mPhoto;
     }
 

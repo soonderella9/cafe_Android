@@ -16,28 +16,20 @@ import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.Adapter.Home_PageAdapter;
 import com.example.gginiggini.R;
 
-public class Nav_Ranking extends AppCompatActivity {
-    private DrawerLayout dlDrawer;
-    private ActionBarDrawerToggle dtToggle;
+public class Ranking extends AppCompatActivity {
     private Toolbar toolBar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ListView lvNavList=null;
-    private NavAdapter navAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_ranking);
 
         toolBar= (Toolbar) findViewById(R.id.toolbar);
-        //list = (ImageView) findViewById(R.id.list);
-        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setSupportActionBar(toolBar);
-        dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
-        dlDrawer.setDrawerListener(dtToggle);
+
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("Top 10");
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
@@ -66,46 +58,20 @@ public class Nav_Ranking extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        navAdapter = new NavAdapter();
-        lvNavList = (ListView) findViewById(R.id.drawer);
-        lvNavList.setAdapter(navAdapter);
-        // 첫 번째 아이템 추가.
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.trophy),
-                "인기 메뉴") ;
-        // 두 번째 아이템 추가.
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.complaint),
-                "소리함") ;
-        // 세 번째 아이템 추가.
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.amplifier),
-                "공지사항") ;
-        // 네 번째 아이템 추가.
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.heart_fill),
-                "내 좋아요") ;
-        // 다섯 번째 아이템 추가.
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.logout),
-                "로그 아웃") ;
+
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        dtToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        dtToggle.onConfigurationChanged(newConfig);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (dtToggle.onOptionsItemSelected(item)) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onStart() {
         super.onStart();

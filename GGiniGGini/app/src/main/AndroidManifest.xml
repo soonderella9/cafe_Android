@@ -23,7 +23,10 @@
         <activity
             android:name=".Activity.StarPopUp"
             android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".Activity.Nav_Ranking"></activity>
+        <activity android:name=".Activity.Ranking" />
+        <activity android:name=".Activity.Complain" />
+        <activity android:name=".Activity.MyFavorites" />
+        <activity android:name=".Activity.Notice"></activity>
     </application>
 
 </manifest>
