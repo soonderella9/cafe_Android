@@ -9,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.gginiggini.Activity.Comment;
 import com.example.gginiggini.Class.CircleImageView;
 import com.example.gginiggini.Item.Item_Menu;
-import com.example.gginiggini.Activity.Menu;
 import com.example.gginiggini.R;
 import com.example.gginiggini.Activity.StarPopUp;
 
@@ -45,29 +46,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.mPrice.setText(item.getmPrice());
         holder.mLikeCount.setText(item.getlCount());
         holder.mScore.setText(item.getScore());
-        holder.mReply.setText(item.getBestReply());
-        holder.cardview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context, item.getmName(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent ( context, Menu.class);
-                context.startActivity(intent);
-            }
-        });
+        holder.mWhen.setText(item.getmWhen());
+        holder.mDetail.setText(item.getmDetail());
         holder.mLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, item.getmName(), Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(context, "좋아요가 반영되었습니다", Toast.LENGTH_SHORT).show();
+                //holder.mLike.setImageDrawable(R.drawable.heart_fill);
             }
         });
-        holder.mStar.setOnClickListener(new View.OnClickListener() {
+        holder.relaScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                //Toast.makeText(context, item.getmName(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent ( context, StarPopUp.class);
                 context.startActivity(intent);
-
+            }
+        });
+        holder.relaComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent ( context, Comment.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }
@@ -82,25 +82,30 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         CircleImageView mphoto;
         TextView mName;
         TextView mPrice;
-        Button mLike;
+        ImageView mLike;
         TextView mLikeCount;
         ImageView mStar;
         TextView mScore;
-        TextView mReply;
+        TextView mWhen;
+        TextView mDetail;
         CardView cardview;
-
+        RelativeLayout relaScore;
+        RelativeLayout relaComment;
         public ViewHolder(View itemView) {
             super(itemView);
 
             mName = (TextView) itemView.findViewById(R.id.mname);
             mphoto = (CircleImageView) itemView. findViewById(R.id.mphoto);
             mPrice = (TextView) itemView.findViewById(R.id.mprice);
-            mLike = (Button) itemView.findViewById(R.id.mlike) ;
+            mLike = (ImageView) itemView.findViewById(R.id.heartimage) ;
             mLikeCount = (TextView) itemView.findViewById(R.id.mlikecount);
-            mStar = (ImageView) itemView.findViewById(R.id.star_image);
+            mWhen = (TextView) itemView.findViewById(R.id.mwhen);
+            mDetail = (TextView) itemView.findViewById(R.id.mdetail);
+            mStar = (ImageView) itemView.findViewById(R.id.starimage);
             mScore = (TextView) itemView.findViewById(R.id.mscore);
-            mReply = (TextView) itemView.findViewById(R.id.mreply);
-            cardview = (CardView) itemView.findViewById(R.id.cardview);
+            relaScore=(RelativeLayout) itemView.findViewById(R.id.rela_score);
+            relaComment=(RelativeLayout) itemView.findViewById(R.id.rela_comment);
+            cardview = (CardView) itemView.findViewById(R.id.cardview_menu);
         }
     }
 }

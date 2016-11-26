@@ -1,93 +1,158 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.v7.widget.CardView
-        android:id="@+id/cardview"
+        android:id="@+id/cardview_menu"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_margin="5dp"
         card_view:cardElevation="6dp"
         card_view:cardCornerRadius="5dp">
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:id="@+id/rela1">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:id="@+id/rela1_1">
+            <com.example.gginiggini.Class.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src ="@drawable/food"
+                android:id="@+id/mphoto"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_above="@+id/mwhen"
+                android:background="#EEEEEE"></View>
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:layout_below="@+id/rela1_1"
+                android:id="@+id/mwhen"/>
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:layout_toRightOf="@+id/mwhen"
+                android:layout_below="@+id/rela1_1"
+                android:id="@+id/mdetail"/>
+        </RelativeLayout>
+            <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_toRightOf="@+id/rela1"
+            android:background="#EEEEEE"></View>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/relativelayout1"
-            android:background="#FFFDE7"
-            >
-
-            <com.example.gginiggini.Class.CircleImageView
-                app:civ_border="true"
-                app:civ_border_width="2dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:id="@+id/mphoto"
-                android:src = "@drawable/food"
-                android:layout_alignParentLeft="true"/>
-           <RelativeLayout
+            android:layout_toRightOf="@+id/rela1"
+            android:id="@+id/rela2">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:textSize="20dp"
+                android:id="@+id/mname"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:textSize="15dp"
+                android:id="@+id/mprice"
+                android:layout_below="@+id/mname"
+                android:gravity="center"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="2dp"
+                android:layout_above="@+id/tab_layout"
+                android:background="#EEEEEE"></View>
+           <TableLayout
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:layout_toRightOf="@+id/mphoto"
-               >
-               <TextView
-                   android:layout_width="160dp"
-                   android:layout_height="30dp"
-                   android:id="@+id/mname"
-                   android:text="BibimBab"
-                   android:textSize="25dp"
-                   android:gravity="center"
-                   android:layout_alignParentLeft="true"/>
-               <Button
-                   android:layout_weight="2"
-                   android:layout_toRightOf="@+id/mname"
-                   android:id="@+id/mlike"
-                   android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:background="@drawable/btn_image_selector"/>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="30dp"
-                   android:textSize="15dp"
-                   android:textColor="#F44336"
-                   android:id="@+id/mlikecount"
-                   android:gravity="center"
-                   android:layout_toRightOf="@+id/mlike"/>
-               <TextView
-                   android:layout_width="160dp"
-                   android:layout_height="30dp"
-                   android:textSize="25dp"
-                   android:id="@+id/mprice"
-                   android:gravity="center"
-                   android:layout_below="@+id/mname" />
-               <ImageView
-                   android:layout_width="30dp"
-                   android:layout_height="30dp"
-                   android:src="@drawable/star"
-                   android:layout_below="@+id/mlike"
-                   android:id="@+id/star_image"
-                   android:layout_toRightOf="@+id/mprice"/>
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="30dp"
-                   android:textSize="15dp"
-                   android:textColor="#FF9800"
-                   android:id="@+id/mscore"
-                   android:gravity="center"
-                   android:layout_toRightOf="@+id/star_image"
-                   android:layout_below="@+id/mlikecount"
-                   />
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="25dp"
-                   android:textSize="20dp"
-                   android:id="@+id/mreply"
-                   android:gravity="center"
-                   android:layout_alignParentBottom="true" />
-           </RelativeLayout>
+               android:id="@+id/tab_layout"
+               android:layout_below="@+id/mprice">
+               <TableRow>
+                   <RelativeLayout
+                       android:layout_weight = "1"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/rela_like"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/heart_blank"
+                           android:gravity="center"
+                           android:id="@+id/heartimage"/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="20dp"
+                           android:id="@+id/mlikecount"
+                           android:textColor="#F44336"
+                           android:textSize="15dp"
+                           android:layout_toRightOf="@+id/heartimage"
+                           />
+                   </RelativeLayout>
+                   <RelativeLayout
+                       android:layout_weight = "1"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/rela_score"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/star"
+                           android:id="@+id/starimage"/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="20dp"
+                           android:id="@+id/mscore"
+                           android:textColor="#FF9800"
+                           android:textSize="15dp"
+                           android:gravity="center"
+                           android:layout_toRightOf="@+id/starimage"
+                           />
+                   </RelativeLayout>
+                   <RelativeLayout
+                       android:layout_weight = "1"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:id="@+id/rela_comment"
+                       android:gravity="center">
+                       <ImageView
+                           android:layout_width="20dp"
+                           android:layout_height="20dp"
+                           android:src="@drawable/comment"
+                           android:id="@+id/commentimage"/>
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="20dp"
+                           android:textSize="15dp"
+                           android:gravity="center"
+                           android:layout_toRightOf="@+id/commentimage"
+                           android:text="댓글"/>
+                   </RelativeLayout>
+               </TableRow>
+           </TableLayout>
+        </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</RelativeLayout>

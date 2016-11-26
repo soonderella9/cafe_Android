@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dip"
     android:layout_height="200dip"
-    android:background="#FFFDE7"
+    android:background="#FFFFFF"
     >
     <TextView
         android:layout_width="match_parent"
@@ -21,7 +21,6 @@
         android:rating="3"
         android:stepSize="0.5"
         android:max="6" />
-
     <Button
         android:id="@+id/button2"
         android:layout_width="150dp"

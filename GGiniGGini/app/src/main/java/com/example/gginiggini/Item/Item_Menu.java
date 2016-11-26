@@ -12,8 +12,9 @@ public class Item_Menu {
     private String mName;
     private String lCount;
     private String mPrice;
+    private String mWhen;
+    private String mDetail;
     private String score;
-    private String bestReply;
 
     public Drawable getmPhoto() {
         return mPhoto;
@@ -63,11 +64,19 @@ public class Item_Menu {
         this.score = score;
     }
 
-    public String getBestReply() {
-        return bestReply;
+    public String getmWhen() {
+        return mWhen;
     }
 
-    public void setBestReply(String bestReply) {
-        this.bestReply = bestReply;
+    public void setmWhen(String mWhen) {
+        this.mWhen = mWhen;
+    }
+
+    public String getmDetail() {
+        return mDetail;
+    }
+
+    public void setmDetail(String mDetail) {
+        this.mDetail = mDetail;
     }
 }

@@ -26,7 +26,12 @@
         <activity android:name=".Activity.Ranking" />
         <activity android:name=".Activity.Complain" />
         <activity android:name=".Activity.MyFavorites" />
-        <activity android:name=".Activity.Notice"></activity>
+        <activity android:name=".Activity.Notice" />
+        <activity android:name=".Activity.ComplainWrite" />
+        <activity android:name=".Activity.ComplainRead" />
+        <activity android:name=".Activity.NoticeRead" />
+        <activity android:name=".Activity.SearchResult" />
+        <activity android:name=".Activity.Comment"></activity>
     </application>
 
 </manifest>

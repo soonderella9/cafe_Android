@@ -38,12 +38,12 @@ public class MainTab_Cafe1 extends Fragment {
         Item_Menu[] item = new Item_Menu[10];
         for(int i =0;i<10;i++){
             item[i] = new Item_Menu();
-            item[i].setmName("비빔밥");
+            item[i].setmName("전주비빔밥");
             item[i].setmPrice("3900원");
             item[i].setlCount("10");
             item[i].setScore("8.7");
-            item[i].setBestReply("너무맛있어요!");
-            //item[i].setcInfo("맛있음");
+            item[i].setmWhen("점심");
+            item[i].setmDetail("뚝배기");
             items.add(item[i]);
         }
         recyclerView.setAdapter(new RecyclerAdapter(getActivity(), items, R.layout.maintab_cafe1));

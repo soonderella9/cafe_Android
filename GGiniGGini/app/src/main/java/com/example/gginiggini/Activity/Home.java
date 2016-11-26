@@ -1,6 +1,8 @@
 package com.example.gginiggini.Activity;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -20,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,11 +55,32 @@ public class Home extends AppCompatActivity {
     private TextView textDate;
     private int nWeek;
     private int checkDate=0;
+    private SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        searchView = (SearchView)findViewById(R.id.search_view); //jh
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//jh
 
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                Intent intent = new Intent(Home.this , SearchResult.class);
+                startActivity(intent);
+                return false;
+            }
+
+            /**
+             * 검색어를 입력할 때 동작하는 이
+             * @param s
+             * @return
+             */
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
         toolBar= (Toolbar) findViewById(R.id.toolbar);
         //list = (ImageView) findViewById(R.id.list);
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,7 +89,7 @@ public class Home extends AppCompatActivity {
         dlDrawer.setDrawerListener(dtToggle);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setTitle("학식세끼");
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
@@ -78,21 +102,7 @@ public class Home extends AppCompatActivity {
         textDate = (TextView) findViewById(R.id.text_date);
         Calendar cal = Calendar.getInstance();
         nWeek = cal.get(Calendar.DAY_OF_WEEK);
-        if (nWeek == 1) {
-             textDate.setText("일");
-        } else if (nWeek == 2) {
-            textDate.setText("월");
-        } else if (nWeek == 3) {
-            textDate.setText("화");
-        } else if (nWeek == 4) {
-            textDate.setText("수");
-        } else if (nWeek == 5) {
-            textDate.setText("목");
-        } else if (nWeek == 6) {
-            textDate.setText("금");
-        } else if (nWeek == 7) {
-            textDate.setText("토");
-        }
+        doDayOfWeek(nWeek);
         rightArrow = (ImageView) findViewById(R.id.rightarrow);
         leftArrow = (ImageView) findViewById(R.id.leftarrow);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -102,7 +112,8 @@ public class Home extends AppCompatActivity {
                 if(nWeek!=7) {
                     nWeek = nWeek + 1;
                     checkDate = checkDate +1;
-                    textDate.setText(doDayOfWeek(nWeek));
+                    //textDate.setText(doDayOfWeek(nWeek));
+                    doDayOfWeek(nWeek);
                     FragmentManager fragmentManager = getFragmentManager();
 
                     //TestFragment frament = new TestFragment();
@@ -116,6 +127,8 @@ public class Home extends AppCompatActivity {
                     //viewPager.setAdapter();
                     //viewPager.setCurrentItem(newFr);
                     //viewPager.setVisibility(INVISIBLE);
+                }else{
+                    Toast.makeText(Home.this,"다음주를 기대하세요 ^0^", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -125,7 +138,8 @@ public class Home extends AppCompatActivity {
                 if(nWeek!=1) {
                     nWeek = nWeek - 1;
                     checkDate = checkDate -1;
-                    textDate.setText(doDayOfWeek(nWeek));
+                    //textDate.setText(doDayOfWeek(nWeek));
+                    doDayOfWeek(nWeek);
                         FragmentManager fragmentManager = getFragmentManager();
 
                         //TestFragment frament = new TestFragment();
@@ -139,6 +153,8 @@ public class Home extends AppCompatActivity {
 
                     //viewPager.setAdapter(new Home_PageAdapter(fragmentManager);
                     //viewPager.setVisibility(INVISIBLE);
+                }else{
+                    Toast.makeText(Home.this,"지난주는 잊으세요 ^0^", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -152,6 +168,21 @@ public class Home extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        tab.set
+//                        tab.setIcon(R.drawable.main_icon_home);
+//                        break;
+//                    case 1:
+//                        tab.setIcon(R.drawable.main_icon_give);
+//                        break;
+//                    case 2:
+//                        tab.setIcon(R.drawable.main_icon_get);
+//                        break;
+//                    case 3:
+//                        tab.setIcon(R.drawable.main_icon_etc);
+//                        break;
+//                }
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -174,7 +205,7 @@ public class Home extends AppCompatActivity {
                 "공지사항") ;
         // 네 번째 아이템 추가.
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.heart_fill),
-                "내 좋아요") ;
+                "좋아요") ;
         // 다섯 번째 아이템 추가.
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.logout),
                 "로그 아웃") ;
@@ -193,12 +224,13 @@ public class Home extends AppCompatActivity {
                 }else if(position ==2){
                     Intent intent = new Intent(Home.this, Notice.class);
                     startActivity(intent);
+                }else if(position ==3){
+                    Intent intent = new Intent(Home.this, MyFavorites.class);
+                    startActivity(intent);
+                }else if(position ==4){
+                    Intent intent = new Intent(Home.this, Login.class);
+                    startActivity(intent);
                 }
-                //String titleStr = item.getTitle() ;
-                //String descStr = item.getDesc() ;
-                //Drawable iconDrawable = item.getIcon() ;
-
-                // TODO : use item data.
             }
         }) ;
 
@@ -217,22 +249,29 @@ public class Home extends AppCompatActivity {
     }
 
     private String doDayOfWeek(int date ) {
-        Calendar cal = Calendar.getInstance();
+        //Calendar cal = Calendar.getInstance();
         String strWeek=null;
         if (date == 1) {
-            strWeek = "일";
+            textDate.setText("일");
+            textDate.setTextColor(Color.parseColor("#F44336"));
         } else if (date == 2) {
-            strWeek = "월";
+            textDate.setText("월");
+            textDate.setTextColor(Color.parseColor("#000000"));
         } else if (date == 3) {
-            strWeek = "화";
+            textDate.setText("화");
+            textDate.setTextColor(Color.parseColor("#000000"));
         } else if (date == 4) {
-            strWeek = "수";
+            textDate.setText("수");
+            textDate.setTextColor(Color.parseColor("#000000"));
         } else if (date == 5) {
-            strWeek = "목";
+            textDate.setText("목");
+            textDate.setTextColor(Color.parseColor("#000000"));
         } else if (date == 6) {
-            strWeek = "금";
+            textDate.setText("금");
+            textDate.setTextColor(Color.parseColor("#000000"));
         } else if (date == 7) {
-            strWeek = "토";
+            textDate.setText("토");
+            textDate.setTextColor(Color.parseColor("#2196F3"));
         }
         return strWeek;
     }

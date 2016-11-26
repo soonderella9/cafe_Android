@@ -41,7 +41,8 @@ public class WeeklyMenu extends Fragment {
             item[i].setmPrice("3900원");
             item[i].setlCount("10");
             item[i].setScore("8.7");
-            item[i].setBestReply("너무맛있어요!");
+            item[i].setmWhen("점심");
+            item[i].setmDetail("뚝배기");
             //item[i].setcInfo("맛있음");
             items.add(item[i]);
         }

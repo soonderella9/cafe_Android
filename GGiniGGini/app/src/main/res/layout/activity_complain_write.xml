@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.gginiggini.Activity.Home">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="#EF6C00">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/send"
+            android:id="@+id/writeimage"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="right">
+        </ImageView>
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/rela1">
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:textSize="20dp"
+            android:background="#FFFDE7"
+            android:gravity="center"
+            android:text="제목 : "
+            android:id="@+id/complain_titleF"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="20dp"
+            android:hint="제목을 입력하세요..."
+            android:background="#FFFDE7"
+            android:layout_toRightOf="@+id/complain_titleF"
+            android:id="@+id/complain_title"/>
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:textSize="15dp"
+            android:layout_below="@+id/complain_titleF"
+            android:gravity="center"
+            android:text="내용 : "
+            android:id="@+id/complain_uidF"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/complain_uidF"
+            android:layout_below="@+id/complain_title"
+            android:hint="내용을 입력하세요..."
+            android:gravity="top"
+            android:textSize="15dp"
+            android:id="@+id/complain_uid"/>
+    </RelativeLayout>
+</RelativeLayout>
