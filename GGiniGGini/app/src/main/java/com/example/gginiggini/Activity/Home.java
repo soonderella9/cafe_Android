@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.Adapter.Home_PageAdapter;
 import com.example.gginiggini.Adapter.RecyclerAdapter;
+import com.example.gginiggini.Class.BackPressCloseHandler;
 import com.example.gginiggini.Fragment.MainTab_Cafe1;
 import com.example.gginiggini.Fragment.WeeklyMenu;
 import com.example.gginiggini.Item.Item_Menu;
@@ -56,13 +57,20 @@ public class Home extends AppCompatActivity {
     private int nWeek;
     private int checkDate=0;
     private SearchView searchView;
+    private BackPressCloseHandler backPressCloseHandler;
+    private Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        searchView = (SearchView)findViewById(R.id.search_view); //jh
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//jh
 
+        backPressCloseHandler = new BackPressCloseHandler(this);
+        searchView = (SearchView)findViewById(R.id.search_view); //jh
+        bundle = new Bundle();
+        bundle = getIntent().getExtras();
+        String userName = bundle.get("USERNAME").toString();
+        Toast.makeText(Home.this,userName+"님 환영합니다 ^^", Toast.LENGTH_LONG).show();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//jh
             @Override
             public boolean onQueryTextSubmit(String s) {
 
@@ -71,11 +79,6 @@ public class Home extends AppCompatActivity {
                 return false;
             }
 
-            /**
-             * 검색어를 입력할 때 동작하는 이
-             * @param s
-             * @return
-             */
             @Override
             public boolean onQueryTextChange(String s) {
                 return false;
@@ -94,7 +97,7 @@ public class Home extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setText("상록원"));
-        tabLayout.addTab(tabLayout.newTab().setText("긱식"));
+        tabLayout.addTab(tabLayout.newTab().setText("기숙사식당"));
         tabLayout.addTab(tabLayout.newTab().setText("그루터기"));
         tabLayout.addTab(tabLayout.newTab().setText("교직원"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -229,7 +232,9 @@ public class Home extends AppCompatActivity {
                     startActivity(intent);
                 }else if(position ==4){
                     Intent intent = new Intent(Home.this, Login.class);
+                    intent.putExtra("reFlag",1);
                     startActivity(intent);
+                    finish();
                 }
             }
         }) ;
@@ -292,5 +297,10 @@ public class Home extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
     }
 }

@@ -51,8 +51,6 @@ public class MyFavorites extends AppCompatActivity {
             item[i].setmPrice("3900원");
             item[i].setlCount("10");
             item[i].setScore("8.7");
-            item[i].setmWhen("점심");
-            item[i].setmDetail("뚝배기");
             items.add(item[i]);
         }
         recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(), items, R.layout.activity_my_favorites));

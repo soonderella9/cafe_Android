@@ -33,9 +33,9 @@ public class Ranking extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
-        tabLayout.addTab(tabLayout.newTab().setText("좋아요"));
-        tabLayout.addTab(tabLayout.newTab().setText("평점"));
-        tabLayout.addTab(tabLayout.newTab().setText("댓글"));
+        tabLayout.addTab(tabLayout.newTab().setText("좋아요순"));
+        tabLayout.addTab(tabLayout.newTab().setText("평점순"));
+        tabLayout.addTab(tabLayout.newTab().setText("댓글순"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
