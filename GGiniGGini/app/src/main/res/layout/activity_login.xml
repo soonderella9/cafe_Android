@@ -8,6 +8,7 @@
 <RelativeLayout
     android:layout_width="250dp"
     android:layout_height="300dp"
+    android:id="@+id/rela"
     android:layout_centerInParent="true">
     <ImageView
         android:layout_width="match_parent"
@@ -65,4 +66,11 @@
         android:layout_below="@+id/btn_login"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rela"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/dongguk"/>
 </RelativeLayout>

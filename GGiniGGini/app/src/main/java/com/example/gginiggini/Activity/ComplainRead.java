@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.R;
-
+/**
+ * complain read page
+ */
 public class ComplainRead extends AppCompatActivity {
     private Toolbar toolBar;
     private TextView complainTitle;
@@ -32,12 +34,15 @@ public class ComplainRead extends AppCompatActivity {
         complainTitle = (TextView) findViewById(R.id.complain_titleInfo);
         complainContent = (TextView) findViewById(R.id.complain_contentInfo);
         complainReply = (TextView) findViewById(R.id.complain_replyInfo);
+        //register complain content
         complainTitle.setText("에어컨좀 틀어주세요!!!!");
         complainContent.setText("요즘 밥을 먹는데 너무 더워요....");
         complainReply.setText("지금 에어컨이 고장나있어서 빠른시일내에 처리하겠습니다");
     }
 
-
+    /**
+     * for back button
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

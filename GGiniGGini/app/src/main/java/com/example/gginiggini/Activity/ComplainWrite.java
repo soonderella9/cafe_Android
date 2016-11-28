@@ -26,6 +26,9 @@ public class ComplainWrite extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("소리함 작성");
         sendImage = (ImageView) findViewById(R.id.writeimage);
+        /**
+         * send complain content to server
+         */
         sendImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

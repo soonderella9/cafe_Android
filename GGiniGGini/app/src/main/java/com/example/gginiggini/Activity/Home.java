@@ -1,11 +1,9 @@
 package com.example.gginiggini.Activity;
 
 import android.app.FragmentManager;
-import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,30 +17,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.Adapter.Home_PageAdapter;
-import com.example.gginiggini.Adapter.RecyclerAdapter;
 import com.example.gginiggini.Class.BackPressCloseHandler;
-import com.example.gginiggini.Fragment.MainTab_Cafe1;
 import com.example.gginiggini.Fragment.WeeklyMenu;
-import com.example.gginiggini.Item.Item_Menu;
 import com.example.gginiggini.R;
 
-import org.w3c.dom.Text;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-
+/**
+ * MainView
+ */
 public class Home extends AppCompatActivity {
     private DrawerLayout dlDrawer;
     private ActionBarDrawerToggle dtToggle;
@@ -59,17 +50,32 @@ public class Home extends AppCompatActivity {
     private SearchView searchView;
     private BackPressCloseHandler backPressCloseHandler;
     private Bundle bundle;
+    private Calendar cal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //Obtain reference from xml
+        searchView = (SearchView)findViewById(R.id.search_view);
+        toolBar= (Toolbar) findViewById(R.id.toolbar);
+        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        rightArrow = (ImageView) findViewById(R.id.rightarrow);
+        leftArrow = (ImageView) findViewById(R.id.leftarrow);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        textDate = (TextView) findViewById(R.id.text_date);
+        lvNavList = (ListView) findViewById(R.id.drawer);
+
         backPressCloseHandler = new BackPressCloseHandler(this);
-        searchView = (SearchView)findViewById(R.id.search_view); //jh
+
         bundle = new Bundle();
         bundle = getIntent().getExtras();
+        //get userInfo from intent
         String userName = bundle.get("USERNAME").toString();
+        //show toast about username
         Toast.makeText(Home.this,userName+"님 환영합니다 ^^", Toast.LENGTH_LONG).show();
+        //for search and move to search activity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {//jh
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -84,9 +90,6 @@ public class Home extends AppCompatActivity {
                 return false;
             }
         });
-        toolBar= (Toolbar) findViewById(R.id.toolbar);
-        //list = (ImageView) findViewById(R.id.list);
-        dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         setSupportActionBar(toolBar);
         dtToggle = new ActionBarDrawerToggle(this, dlDrawer, R.string.app_name, R.string.app_name);
         dlDrawer.setDrawerListener(dtToggle);
@@ -94,98 +97,82 @@ public class Home extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("학식세끼");
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-
+        //from this,make tap
         tabLayout.addTab(tabLayout.newTab().setText("상록원"));
         tabLayout.addTab(tabLayout.newTab().setText("기숙사식당"));
         tabLayout.addTab(tabLayout.newTab().setText("그루터기"));
         tabLayout.addTab(tabLayout.newTab().setText("교직원"));
+        //set equal tab interval
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        textDate = (TextView) findViewById(R.id.text_date);
-        Calendar cal = Calendar.getInstance();
+        //for get today's date
+        cal = Calendar.getInstance();
         nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        //setting today's date
         doDayOfWeek(nWeek);
-        rightArrow = (ImageView) findViewById(R.id.rightarrow);
-        leftArrow = (ImageView) findViewById(R.id.leftarrow);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        /**
+         * method for move date from today to tomorrow
+         */
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nWeek!=7) {
+                if(nWeek!=7) {//sunday~saturday
                     nWeek = nWeek + 1;
                     checkDate = checkDate +1;
-                    //textDate.setText(doDayOfWeek(nWeek));
                     doDayOfWeek(nWeek);
                     FragmentManager fragmentManager = getFragmentManager();
 
-                    //TestFragment frament = new TestFragment();
+                    //create new fragment object
                     WeeklyMenu newFr = new WeeklyMenu();
                     Bundle bundle = new Bundle();
                     newFr.setArguments(bundle);
 
+                    //replace fragment
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.replace(R.id.sdfa, newFr);
                     fragmentTransaction.commit();
-                    //viewPager.setAdapter();
-                    //viewPager.setCurrentItem(newFr);
-                    //viewPager.setVisibility(INVISIBLE);
-                }else{
+
+                }else{//if press button to move after saturday
                     Toast.makeText(Home.this,"다음주를 기대하세요 ^0^", Toast.LENGTH_LONG).show();
                 }
             }
         });
+        /**
+         * method for move date from today to yesterday
+         */
         leftArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nWeek!=1) {
+                if(nWeek!=1) {//sunday~saturday
                     nWeek = nWeek - 1;
                     checkDate = checkDate -1;
-                    //textDate.setText(doDayOfWeek(nWeek));
                     doDayOfWeek(nWeek);
                         FragmentManager fragmentManager = getFragmentManager();
 
-                        //TestFragment frament = new TestFragment();
+                        //create new fragment object
                         WeeklyMenu newFr = new WeeklyMenu();
                         Bundle bundle = new Bundle();
                         newFr.setArguments(bundle);
 
+                        //replace fragment
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.sdfa, newFr);
                         fragmentTransaction.commit();
-
-                    //viewPager.setAdapter(new Home_PageAdapter(fragmentManager);
-                    //viewPager.setVisibility(INVISIBLE);
-                }else{
+                }else{//if press button to move before sunday
                     Toast.makeText(Home.this,"지난주는 잊으세요 ^0^", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        //Creating Home_PageAdapter adapter
+        //creating Home_PageAdapter adapter
         Home_PageAdapter homePageAdapter = new Home_PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(homePageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        //Set TabSelectedListner
+        //set TabSelectedListner
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-//                switch (tab.getPosition()) {
-//                    case 0:
-//                        tab.set
-//                        tab.setIcon(R.drawable.main_icon_home);
-//                        break;
-//                    case 1:
-//                        tab.setIcon(R.drawable.main_icon_give);
-//                        break;
-//                    case 2:
-//                        tab.setIcon(R.drawable.main_icon_get);
-//                        break;
-//                    case 3:
-//                        tab.setIcon(R.drawable.main_icon_etc);
-//                        break;
-//                }
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -195,29 +182,27 @@ public class Home extends AppCompatActivity {
             }
         });
         navAdapter = new NavAdapter();
-        lvNavList = (ListView) findViewById(R.id.drawer);
         lvNavList.setAdapter(navAdapter);
-        // 첫 번째 아이템 추가.
+        //add 1st item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.trophy),
                 "Top 10") ;
-        // 두 번째 아이템 추가.
+        //add 2nd item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.complaint),
                 "소리함") ;
-        // 세 번째 아이템 추가.
+        //add 3rd item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.amplifier),
                 "공지사항") ;
-        // 네 번째 아이템 추가.
+        //add 4th item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.heart_fill),
                 "좋아요") ;
-        // 다섯 번째 아이템 추가.
+        //add 5th item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.logout),
                 "로그 아웃") ;
-        // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
+        //define click event handler on listview
         lvNavList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // get item
-                //ListViewItem item = (ListViewItem) parent.getItemAtPosition(position) ;
+                //define each item click event
                 if(position==0) {
                     Intent intent = new Intent(Home.this, Ranking.class);
                     startActivity(intent);
@@ -253,8 +238,10 @@ public class Home extends AppCompatActivity {
         dtToggle.onConfigurationChanged(newConfig);
     }
 
+    /**
+     *method for get tday's date with color
+     */
     private String doDayOfWeek(int date ) {
-        //Calendar cal = Calendar.getInstance();
         String strWeek=null;
         if (date == 1) {
             textDate.setText("일");

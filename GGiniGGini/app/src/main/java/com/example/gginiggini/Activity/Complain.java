@@ -23,7 +23,9 @@ import com.example.gginiggini.Item.Item_Menu;
 import com.example.gginiggini.R;
 
 import java.util.ArrayList;
-
+/**
+ * complainlist page
+ */
 public class Complain extends AppCompatActivity {
     private Toolbar toolBar;
     private ImageView writeImage;
@@ -42,10 +44,14 @@ public class Complain extends AppCompatActivity {
         complainAdapter = new ComplainAdapter();
         lvComplainList = (ListView) findViewById(R.id.compalinlist);
         lvComplainList.setAdapter(complainAdapter);
+
         for (int i = 0; i < 10; i++) {
             complainAdapter.addItem("에어콘좀 틀어주세요!!!!", "2016/11/25 18.25",
                     "이용준", "O");
         }
+        /**
+         * for complain read, link to complain readepage
+         */
         lvComplainList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -57,6 +63,9 @@ public class Complain extends AppCompatActivity {
 
             }
         }) ;
+        /**
+         * for complain write, link to complain writepage
+         */
         writeImage = (ImageView) findViewById(R.id.writeimage);
         writeImage.setOnClickListener(new View.OnClickListener() {
             @Override

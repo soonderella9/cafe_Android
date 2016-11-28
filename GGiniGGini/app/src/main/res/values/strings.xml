@@ -1,10 +1,9 @@
 <resources>
-    <string name="app_name">GGiniGGini</string>
+    <string name="app_name">학식세끼</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">Settings</string>
     <string name="open_drawer">Open drawer</string>
     <string name="close_drawer">Close drawer</string>
-    <string name="facebook_app_id">1782537852000973</string>
 </resources>

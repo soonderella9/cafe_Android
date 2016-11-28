@@ -1,10 +1,10 @@
 package com.example.gginiggini.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,15 +15,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import com.example.gginiggini.R;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.lang.reflect.Method;
 
 public class Login extends AppCompatActivity {
     private EditText myId;
@@ -48,10 +43,17 @@ public class Login extends AppCompatActivity {
         auto_Login = (CheckBox) findViewById(R.id.auto_login);
         setting = getSharedPreferences("setting", 0);
         editor= setting.edit();
-
+        /**
+         * when clicked
+         */
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //before login check show ma
+                final ProgressDialog pdial = new ProgressDialog(Login.this);
+                pdial.setMessage("로그인하는 중...");
+                pdial.setCancelable(false);
+                pdial.show();
                 Thread t = new Thread() {
                     public void run() {
                         boolean result = false;
@@ -99,6 +101,7 @@ public class Login extends AppCompatActivity {
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    pdial.dismiss();
                                     Toast.makeText(Login.this,"로그인에 실패하였습니다", Toast.LENGTH_LONG).show();
                                     return;
                                 }
@@ -122,9 +125,6 @@ public class Login extends AppCompatActivity {
                     editor.putBoolean("Auto_Login_enabled", true);
                     editor.commit();
                 }else{
-//         editor.remove("ID");
-//         editor.remove("PW");
-//         editor.remove("Auto_Login_enabled");
                     editor.clear();
                     editor.commit();
                 }

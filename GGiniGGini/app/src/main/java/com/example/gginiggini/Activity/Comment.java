@@ -25,6 +25,9 @@ import com.example.gginiggini.R;
 
 import java.util.ArrayList;
 
+/**
+ * for show comment list class
+ */
 public class Comment extends AppCompatActivity {
     private Toolbar toolBar;
     private ListView lvCommentList=null;
@@ -33,7 +36,7 @@ public class Comment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
-
+        //import toolbar
         toolBar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolBar);
@@ -42,6 +45,7 @@ public class Comment extends AppCompatActivity {
         commentAdapter = new CommentAdapter();
         lvCommentList = (ListView) findViewById(R.id.commentlist);
         lvCommentList.setAdapter(commentAdapter);
+        //for enroll comment content
         for (int i = 0; i < 10; i++) {
             commentAdapter.addItem("이용준", "야채가 좀많긴 한데 매우 맛있군요 ㅎㅎㅎ", "122");
         }
@@ -58,6 +62,9 @@ public class Comment extends AppCompatActivity {
 //        }) ;
     }
 
+    /**
+     * back button method
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
