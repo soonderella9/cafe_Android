@@ -52,7 +52,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="로그인"
+        android:text="udrims 아이디로 로그인"
+        android:textAllCaps="false"
         android:layout_below="@+id/pwdInfo"
         android:id="@+id/btn_login">
     </Button>

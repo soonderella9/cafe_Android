@@ -30,7 +30,7 @@
             <com.example.gginiggini.Class.CircleImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src ="@drawable/food"
+                android:src="@drawable/food"
                 android:id="@+id/mphoto"/>
             </RelativeLayout>
             <View
@@ -48,6 +48,7 @@
             <TextView
                 android:layout_width="40dp"
                 android:layout_height="20dp"
+                android:textSize="10dp"
                 android:gravity="center"
                 android:layout_toRightOf="@+id/mwhen"
                 android:layout_below="@+id/rela1_1"
@@ -71,10 +72,18 @@
                 android:id="@+id/mname"
                 android:gravity="center"/>
             <TextView
+                android:layout_width="150dp"
+                android:layout_height="35dp"
+                android:textSize="15dp"
+                android:id="@+id/cname"
+                android:layout_below="@+id/mname"
+                android:gravity="center"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:textSize="15dp"
                 android:id="@+id/mprice"
+                android:layout_toRightOf="@+id/cname"
                 android:layout_below="@+id/mname"
                 android:gravity="center"/>
             <View
@@ -98,7 +107,6 @@
                        <ImageView
                            android:layout_width="20dp"
                            android:layout_height="20dp"
-                           android:src="@drawable/heart_blank"
                            android:gravity="center"
                            android:id="@+id/heartimage"/>
                        <TextView

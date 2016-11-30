@@ -9,8 +9,7 @@ import android.graphics.drawable.Drawable;
 public class Item_Comment {
     private String uid;
     private String content;
-    private String likeCount;
-    private Drawable like;
+    private int commentNum;
     public String getUid() {
         return uid;
     }
@@ -27,19 +26,11 @@ public class Item_Comment {
         this.content = content;
     }
 
-    public String getLikeCount() {
-        return likeCount;
+    public int getCommentNum() {
+        return commentNum;
     }
 
-    public void setLikeCount(String likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public Drawable getLike() {
-        return like;
-    }
-
-    public void setLike(Drawable like) {
-        this.like = like;
+    public void setCommentNum(int commentNum) {
+        this.commentNum = commentNum;
     }
 }

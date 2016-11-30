@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.gginiggini.Adapter.NavAdapter;
-import com.example.gginiggini.Adapter.Home_PageAdapter;
 import com.example.gginiggini.Adapter.NoticeAdapter;
 import com.example.gginiggini.Adapter.RecyclerAdapter;
 import com.example.gginiggini.Item.Item_Menu;
@@ -27,6 +26,8 @@ import java.util.List;
 
 public class SearchResult extends AppCompatActivity {
     private Toolbar toolBar;
+    private String userName;
+    private String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +50,13 @@ public class SearchResult extends AppCompatActivity {
             item[i] = new Item_Menu();
             item[i].setmName("전주비빔밥");
             item[i].setmPrice("3900원");
-            item[i].setlCount("10");
-            item[i].setScore("8.7");
+            item[i].setlCount(10);
+            item[i].setScore(8);
             item[i].setmWhen("점심");
             item[i].setmDetail("뚝배기");
             items.add(item[i]);
         }
-        recyclerView.setAdapter(new RecyclerAdapter(getApplicationContext(), items, R.layout.activity_my_favorites));
+        recyclerView.setAdapter(new RecyclerAdapter(userID, userName, getApplicationContext(), items, R.layout.activity_my_favorites));
 //
     }
 

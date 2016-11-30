@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 /**
  * Created by 이용준 on 2016-11-26.
+ * This class is used for double click exit app
  */
 
 public class BackPressCloseHandler {
@@ -18,6 +19,7 @@ public class BackPressCloseHandler {
         this.activity = context;
     }
 
+    //when back button pressed
     public void onBackPressed() {
         if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
             backKeyPressedTime = System.currentTimeMillis();

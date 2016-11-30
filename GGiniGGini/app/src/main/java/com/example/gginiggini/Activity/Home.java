@@ -25,11 +25,18 @@ import android.widget.Toast;
 import com.example.gginiggini.Adapter.NavAdapter;
 import com.example.gginiggini.Adapter.Home_PageAdapter;
 import com.example.gginiggini.Class.BackPressCloseHandler;
-import com.example.gginiggini.Fragment.WeeklyMenu;
+import com.example.gginiggini.Class.Flag;
+import com.example.gginiggini.Class.SendPost;
 import com.example.gginiggini.R;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * MainView
@@ -45,12 +52,18 @@ public class Home extends AppCompatActivity {
     private ImageView rightArrow;
     private ImageView leftArrow;
     private TextView textDate;
+    private String stringDate;
     private int nWeek;
     private int checkDate=0;
     private SearchView searchView;
     private BackPressCloseHandler backPressCloseHandler;
     private Bundle bundle;
     private Calendar cal;
+    private String userID;
+    private String userName;
+    private SendPost userRegisterSP;
+    private Home_PageAdapter homePageAdapter;
+    public static Flag flag = new Flag();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +74,8 @@ public class Home extends AppCompatActivity {
         toolBar= (Toolbar) findViewById(R.id.toolbar);
         dlDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        rightArrow = (ImageView) findViewById(R.id.rightarrow);
-        leftArrow = (ImageView) findViewById(R.id.leftarrow);
+        //rightArrow = (ImageView) findViewById(R.id.rightarrow);
+        //leftArrow = (ImageView) findViewById(R.id.leftarrow);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         textDate = (TextView) findViewById(R.id.text_date);
         lvNavList = (ListView) findViewById(R.id.drawer);
@@ -72,7 +85,25 @@ public class Home extends AppCompatActivity {
         bundle = new Bundle();
         bundle = getIntent().getExtras();
         //get userInfo from intent
-        String userName = bundle.get("USERNAME").toString();
+        userID = bundle.get("USERID").toString();
+        userName = bundle.get("USERNAME").toString();
+        flag.setUserUID(userID);
+        JSONObject jsonParam = new JSONObject();
+        try {
+            jsonParam.put("uid", userID);
+            jsonParam.put("nick", userName);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        userRegisterSP = new SendPost(jsonParam, "user/check");
+
+        new Thread() {
+            public void run() {
+                userRegisterSP.executeClient();
+            }
+        }.start();
         //show toast about username
         Toast.makeText(Home.this,userName+"님 환영합니다 ^^", Toast.LENGTH_LONG).show();
         //for search and move to search activity
@@ -95,7 +126,7 @@ public class Home extends AppCompatActivity {
         dlDrawer.setDrawerListener(dtToggle);
         setSupportActionBar(toolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("학식세끼");
+        getSupportActionBar().setTitle("오늘의 메뉴");
 
         //from this,make tap
         tabLayout.addTab(tabLayout.newTab().setText("상록원"));
@@ -108,65 +139,20 @@ public class Home extends AppCompatActivity {
         //for get today's date
         cal = Calendar.getInstance();
         nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        stringDate=doDayOfWeek(nWeek);
+        textDate.setText(getDateString()+" "+stringDate);
+
         //setting today's date
         doDayOfWeek(nWeek);
         /**
          * method for move date from today to tomorrow
          */
-        rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(nWeek!=7) {//sunday~saturday
-                    nWeek = nWeek + 1;
-                    checkDate = checkDate +1;
-                    doDayOfWeek(nWeek);
-                    FragmentManager fragmentManager = getFragmentManager();
 
-                    //create new fragment object
-                    WeeklyMenu newFr = new WeeklyMenu();
-                    Bundle bundle = new Bundle();
-                    newFr.setArguments(bundle);
-
-                    //replace fragment
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.sdfa, newFr);
-                    fragmentTransaction.commit();
-
-                }else{//if press button to move after saturday
-                    Toast.makeText(Home.this,"다음주를 기대하세요 ^0^", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-        /**
-         * method for move date from today to yesterday
-         */
-        leftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(nWeek!=1) {//sunday~saturday
-                    nWeek = nWeek - 1;
-                    checkDate = checkDate -1;
-                    doDayOfWeek(nWeek);
-                        FragmentManager fragmentManager = getFragmentManager();
-
-                        //create new fragment object
-                        WeeklyMenu newFr = new WeeklyMenu();
-                        Bundle bundle = new Bundle();
-                        newFr.setArguments(bundle);
-
-                        //replace fragment
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.sdfa, newFr);
-                        fragmentTransaction.commit();
-                }else{//if press button to move before sunday
-                    Toast.makeText(Home.this,"지난주는 잊으세요 ^0^", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         //creating Home_PageAdapter adapter
-        Home_PageAdapter homePageAdapter = new Home_PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        homePageAdapter = new Home_PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(homePageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         //set TabSelectedListner
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
 
@@ -181,6 +167,7 @@ public class Home extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
         navAdapter = new NavAdapter();
         lvNavList.setAdapter(navAdapter);
         //add 1st item to navigation drawer
@@ -193,9 +180,18 @@ public class Home extends AppCompatActivity {
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.amplifier),
                 "공지사항") ;
         //add 4th item to navigation drawer
-        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.heart_fill),
-                "좋아요") ;
+        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.cafeteria),
+                "상록원주간메뉴") ;
         //add 5th item to navigation drawer
+        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.cafeteria),
+                "기숙사식당주간메뉴") ;
+        //add 6th item to navigation drawer
+        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.cafeteria),
+                "그루터기주간메뉴") ;
+        //add 7th item to navigation drawer
+        navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.cafeteria),
+                "교직원식당주간메뉴") ;
+        //add 8th item to navigation drawer
         navAdapter.addItem(ContextCompat.getDrawable(this, R.drawable.logout),
                 "로그 아웃") ;
         //define click event handler on listview
@@ -205,19 +201,51 @@ public class Home extends AppCompatActivity {
                 //define each item click event
                 if(position==0) {
                     Intent intent = new Intent(Home.this, Ranking.class);
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
                     startActivity(intent);
                 }else if(position ==1){
                     Intent intent = new Intent(Home.this, Complain.class);
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
                     startActivity(intent);
                 }else if(position ==2){
                     Intent intent = new Intent(Home.this, Notice.class);
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
                     startActivity(intent);
-                }else if(position ==3){
-                    Intent intent = new Intent(Home.this, MyFavorites.class);
+                }else if(position == 3){
+                    flag.setCafeFlag("상록원");
+                    Intent intent = new Intent(Home.this, Weekly_Sangrok.class);
+                    intent.putExtra("CAFENAME", "상록원");
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
                     startActivity(intent);
-                }else if(position ==4){
+                }else if(position == 4){
+                    flag.setCafeFlag("기숙사식당");
+                    Intent intent = new Intent(Home.this, Weekly_Domi.class);
+                    intent.putExtra("CAFENAME", "기숙사식당");
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
+                    startActivity(intent);
+                }else if(position == 5){
+                    flag.setCafeFlag("그루터기");
+                    Intent intent = new Intent(Home.this, Weekly_Gru.class);
+                    intent.putExtra("CAFENAME", "그루터기");
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
+                    startActivity(intent);
+                }else if(position == 6){
+                    flag.setCafeFlag("교직원식당");
+                    Intent intent = new Intent(Home.this, Weekly_Staff.class);
+                    intent.putExtra("CAFENAME", "교직원식당");
+                    intent.putExtra("USERID", userID);
+                    intent.putExtra("USERNAME", userName);
+                    startActivity(intent);
+                }else if(position == 7){
                     Intent intent = new Intent(Home.this, Login.class);
-                    intent.putExtra("reFlag",1);
+                    //intent.putExtra("USERID", userID);
+                    //intent.putExtra("USERNAME", userName);
                     startActivity(intent);
                     finish();
                 }
@@ -244,30 +272,28 @@ public class Home extends AppCompatActivity {
     private String doDayOfWeek(int date ) {
         String strWeek=null;
         if (date == 1) {
-            textDate.setText("일");
-            textDate.setTextColor(Color.parseColor("#F44336"));
+            strWeek="Sun";
         } else if (date == 2) {
-            textDate.setText("월");
-            textDate.setTextColor(Color.parseColor("#000000"));
+            strWeek="Mon";
         } else if (date == 3) {
-            textDate.setText("화");
-            textDate.setTextColor(Color.parseColor("#000000"));
+            strWeek="Tue";
         } else if (date == 4) {
-            textDate.setText("수");
-            textDate.setTextColor(Color.parseColor("#000000"));
+            strWeek="Wed";
         } else if (date == 5) {
-            textDate.setText("목");
-            textDate.setTextColor(Color.parseColor("#000000"));
+            strWeek="Thu";
         } else if (date == 6) {
-            textDate.setText("금");
-            textDate.setTextColor(Color.parseColor("#000000"));
+            strWeek="Fri";
         } else if (date == 7) {
-            textDate.setText("토");
-            textDate.setTextColor(Color.parseColor("#2196F3"));
+            strWeek="Sat";
         }
         return strWeek;
     }
-
+    public String getDateString()
+    {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        String str_date = df.format(new Date());
+        return str_date;
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (dtToggle.onOptionsItemSelected(item)) {
@@ -283,8 +309,9 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        homePageAdapter.notifyDataSetChanged();
     }
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

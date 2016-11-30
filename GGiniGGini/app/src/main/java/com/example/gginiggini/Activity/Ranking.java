@@ -13,13 +13,15 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.gginiggini.Adapter.NavAdapter;
-import com.example.gginiggini.Adapter.Home_PageAdapter;
+import com.example.gginiggini.Adapter.Rank_PageAdapter;
 import com.example.gginiggini.R;
 
 public class Ranking extends AppCompatActivity {
     private Toolbar toolBar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private String userName;
+    private String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,18 +33,18 @@ public class Ranking extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Top 10");
 
+        //making tab with info
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 
         tabLayout.addTab(tabLayout.newTab().setText("좋아요순"));
         tabLayout.addTab(tabLayout.newTab().setText("평점순"));
-        tabLayout.addTab(tabLayout.newTab().setText("댓글순"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         //Creating Home_PageAdapter adapter
-        Home_PageAdapter homePageAdapter = new Home_PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(homePageAdapter);
+        Rank_PageAdapter rankPageAdapter = new Rank_PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(rankPageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Set TabSelectedListner
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){

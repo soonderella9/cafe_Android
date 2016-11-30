@@ -1,7 +1,9 @@
 package com.example.gginiggini.Activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -12,22 +14,34 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.gginiggini.Adapter.NavAdapter;
-import com.example.gginiggini.Adapter.Home_PageAdapter;
 import com.example.gginiggini.Adapter.NoticeAdapter;
 import com.example.gginiggini.Adapter.RecyclerAdapter;
+import com.example.gginiggini.Class.SendPost;
+import com.example.gginiggini.Item.Item_Complain;
 import com.example.gginiggini.Item.Item_Menu;
 import com.example.gginiggini.Item.Item_Notice;
 import com.example.gginiggini.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class Notice extends AppCompatActivity {
     private Toolbar toolBar;
-    private ListView lvNavList=null;
-    private NavAdapter navAdapter;
+    private NoticeAdapter noticeAdapter;
+    private ArrayList<Item_Notice> items_noticeList;
+    private Bundle bundle;
+    private String userName;
+    private String userID;
+    private SendPost noticeListSP;
+    private Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,16 +58,37 @@ public class Notice extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<Item_Notice> items = new ArrayList<>();
-        Item_Notice[] item = new Item_Notice[10];
-        for(int i =0;i<10;i++){
-            item[i] = new Item_Notice();
-            item[i].setTitle("오늘 열공국수 개시!");
-            item[i].setDate("2016-11-24 16:14");
-
-            items.add(item[i]);
+        items_noticeList = new ArrayList<Item_Notice>();
+        bundle = new Bundle();
+        bundle = getIntent().getExtras();
+        userID = bundle.get("USERID").toString();
+        userName = bundle.get("USERNAME").toString();
+        handler = new Handler();
+        JSONObject jsonParam = new JSONObject();
+        try {
+            jsonParam.put("null", "null");
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        recyclerView.setAdapter(new NoticeAdapter(getApplicationContext(), items, R.layout.activity_my_favorites));
+
+        noticeListSP = new SendPost(jsonParam, "notice/listApp");
+
+        final String SPresult[] = new String[1];
+
+        new Thread() {
+            public void run() {
+                SPresult[0] = noticeListSP.executeClient();
+                handler.post(new Runnable() {
+                    public void run() {
+                        doJSONParser(SPresult);
+                        //noticeAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }.start();
+        recyclerView.setAdapter(new NoticeAdapter(getApplicationContext(), items_noticeList, R.layout.activity_notice));
+
     }
 
 
@@ -75,5 +110,46 @@ public class Notice extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+    void doJSONParser(String[] SP) {
+        StringBuffer sb1 = new StringBuffer();
+        StringBuffer sb2 = new StringBuffer();
+        StringBuffer sb3 = new StringBuffer();
+
+        String return_test = SP[0].toString();
+        try {
+            JSONObject jObject = new JSONObject(return_test);
+            int code = jObject.getInt("code");
+            String message = jObject.getString("message");
+            String result = jObject.getString("result");
+
+            sb1.append("code:" + code + "\n");
+            sb2.append("message:" + message + "\n");
+            sb3.append("result:" + result + "\n");
+            System.out.println("" + sb1.toString());
+            System.out.println("" + sb2.toString());
+            System.out.println("" + sb3.toString());
+
+
+            if (code == 200) { //
+                try {
+                    JSONArray JArray = new JSONArray(result);   // JSONArray 생성
+                    Item_Notice[] itemarray = new Item_Notice[JArray.length()];
+                    for (int i = 0; i < JArray.length(); i++) {
+                        JSONObject jk = JArray.getJSONObject(i);  // JSONObject 추출
+                        itemarray[i] = new Item_Notice();
+                        itemarray[i].setTitle(jk.getString("title").toString());
+                        itemarray[i].setContent(jk.getString("contents").toString());
+                        itemarray[i].setDate(jk.getString("regDate").toString());
+                        items_noticeList.add(itemarray[i]);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

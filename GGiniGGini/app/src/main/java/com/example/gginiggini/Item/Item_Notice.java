@@ -5,6 +5,7 @@ package com.example.gginiggini.Item;
  */
 
 public class Item_Notice {
+    private int nNum;
     private String title;
     private String content;
     private String Date;
@@ -30,5 +31,13 @@ public class Item_Notice {
 
     public void setDate(String date) {
         Date = date;
+    }
+
+    public int getnNum() {
+        return nNum;
+    }
+
+    public void setnNum(int nNum) {
+        this.nNum = nNum;
     }
 }

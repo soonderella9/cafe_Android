@@ -37,7 +37,7 @@
                 android:elevation="6dp"
                 app:tabSelectedTextColor="#EF6C00"
                 android:minHeight="?attr/actionBarSize"
-            />
+                />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -52,24 +52,12 @@
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/text_date"
-                    android:text=" 월 "
-                    android:textSize="33dp"
+                    android:text=" 오늘의 메뉴 "
+                    android:textSize="15dp"
                     android:textStyle="bold"
+                    android:gravity="center"
                     android:layout_centerHorizontal="true"/>
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/text_date"
-                    android:id="@+id/leftarrow"
-                    android:src="@drawable/left_arrow"/>
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/text_date"
-                    android:id="@+id/rightarrow"
-                    android:src="@drawable/right_arrow"
-                    />
-    </RelativeLayout>
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -80,24 +68,24 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/sdfa"
                 android:layout_below="@+id/rela_layout">
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" >
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" >
+                </android.support.v4.view.ViewPager>
 
-            </android.support.v4.view.ViewPager>
             </RelativeLayout>
         </RelativeLayout>
-                <ListView
-                    android:id="@+id/drawer"
-                    android:layout_width="240dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:background="#FFFDE7">
-                </ListView>
+        <ListView
+            android:id="@+id/drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#FFFDE7">
+        </ListView>
 
     </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

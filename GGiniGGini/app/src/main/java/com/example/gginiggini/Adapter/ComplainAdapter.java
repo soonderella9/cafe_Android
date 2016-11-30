@@ -1,87 +1,66 @@
 package com.example.gginiggini.Adapter;
 
+
+import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gginiggini.Class.ListViewHolderComplain;
 import com.example.gginiggini.Item.Item_Complain;
 import com.example.gginiggini.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by 이용준 on 2016-11-24.
- */
+//custom ArrayAdapter
+public class ComplainAdapter extends ArrayAdapter<Item_Complain> {
 
-public class ComplainAdapter extends BaseAdapter {
-    // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<Item_Complain> listViewItemList = new ArrayList<Item_Complain>() ;
+    private Context context;
+    private ArrayList<Item_Complain> item_ComplainArrayList;
 
-    // ListViewAdapter의 생성자
-    public ComplainAdapter() {
+    //constructor, call on creation
+    public ComplainAdapter(Context context, ArrayList<Item_Complain> objects) {
+        super(context, 0, objects);
+
+        this.context = context;
+        this.item_ComplainArrayList = objects;
     }
 
-    // Adapter에 사용되는 데이터의 개수를 리턴. : 필수 구현
-    @Override
-    public int getCount() {
-        return listViewItemList.size() ;
-    }
-
-    // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴. : 필수 구현
-    @Override
+    //called when rendering the list
     public View getView(int position, View convertView, ViewGroup parent) {
-        final int pos = position;
-        final Context context = parent.getContext();
 
-        // "listview_item" Layout을 inflate하여 convertView 참조 획득.
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_complain, parent, false);
+        ListViewHolderComplain holder; // Holder Pattern -> prevent overload
+
+        //get the property we are displaying
+        Item_Complain curItem_Complain = item_ComplainArrayList.get(position);
+
+        //get the inflater and inflate the XML layout for each item
+        if(convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.item_complain, null);
+            holder = new ListViewHolderComplain();
+            holder.title = (TextView) convertView.findViewById(R.id.complain_title);
+            holder.regDate = (TextView) convertView.findViewById(R.id.complain_date);
+            holder.writer = (TextView) convertView.findViewById(R.id.complain_uid);
+            holder.isReply = (TextView) convertView.findViewById(R.id.complain_isreply);
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ListViewHolderComplain) convertView.getTag();
         }
 
-        // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView complainTitle = (TextView) convertView.findViewById(R.id.complain_title);
-        TextView complainDate = (TextView) convertView.findViewById(R.id.complain_date);
-        TextView complainUid = (TextView) convertView.findViewById(R.id.complain_uid);
-        TextView complainisReply = (TextView) convertView.findViewById(R.id.complain_isreply);
-        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        Item_Complain listViewItem = listViewItemList.get(position);
+        //set price and rental attributes
+        holder.title.setText(String.valueOf(curItem_Complain.getTitle()));
+        holder.regDate.setText(String.valueOf(curItem_Complain.getDate()));
+        holder.writer.setText(String.valueOf(curItem_Complain.getUid()));
+        holder.isReply.setText(String.valueOf(curItem_Complain.getIsReply()));
 
-        // 아이템 내 각 위젯에 데이터 반영
-        //iconImageView.setImageDrawable(listViewItem.getNavIcon());
-        //titleTextView.setText(listViewItem.getNavText());
-        complainTitle.setText(listViewItem.getTitle());
-        complainDate.setText(listViewItem.getDate());
-        complainUid.setText(listViewItem.getUid());
-        complainisReply.setText(listViewItem.getIsReply());
+//        get the image associated with this property
+
         return convertView;
-    }
-
-    // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴. : 필수 구현
-    @Override
-    public long getItemId(int position) {
-        return position ;
-    }
-
-    // 지정한 위치(position)에 있는 데이터 리턴 : 필수 구현
-    @Override
-    public Object getItem(int position) {
-        return listViewItemList.get(position) ;
-    }
-
-    // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String title, String date, String uid, String isReply) {
-        Item_Complain item = new Item_Complain();
-        item.setTitle(title);
-        item.setDate(date);
-        item.setUid(uid);
-        item.setIsReply(isReply);
-
-        listViewItemList.add(item);
     }
 }

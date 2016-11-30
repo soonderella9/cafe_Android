@@ -31,7 +31,12 @@
         <activity android:name=".Activity.ComplainRead" />
         <activity android:name=".Activity.NoticeRead" />
         <activity android:name=".Activity.SearchResult" />
-        <activity android:name=".Activity.Comment"></activity>
+        <activity android:name=".Activity.Comment" />
+        <activity android:name=".Activity.SangrokWeekly" />
+        <activity android:name=".Activity.Weekly_Sangrok" />
+        <activity android:name=".Activity.Weekly_Domi" />
+        <activity android:name=".Activity.Weekly_Gru" />
+        <activity android:name=".Activity.Weekly_Staff"></activity>
     </application>
 
 </manifest>

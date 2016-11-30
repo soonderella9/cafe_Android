@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import com.example.gginiggini.Activity.NoticeRead;
 import com.example.gginiggini.Activity.StarPopUp;
+import com.example.gginiggini.Class.AdapterCommunicate;
 import com.example.gginiggini.Class.CircleImageView;
 import com.example.gginiggini.Item.Item_Menu;
 import com.example.gginiggini.Item.Item_Notice;
 import com.example.gginiggini.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -30,7 +33,6 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
     Context context;
     ArrayList<Item_Notice> items;
     int item_layout;
-
     public NoticeAdapter(Context context, ArrayList<Item_Notice> items, int item_layout) {
         this.context = context;
         this.items = items;
@@ -48,16 +50,7 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
         final Item_Notice item = items.get(position);
         holder.nTitle.setText(item.getTitle());
         holder.nDate.setText(item.getDate());
-
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(context, item.getmName(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent ( context, NoticeRead.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
+        holder.nContent.setText(item.getContent());
 
     }
 
@@ -70,12 +63,14 @@ public class NoticeAdapter extends RecyclerView.Adapter<NoticeAdapter.ViewHolder
 
         TextView nTitle;
         TextView nDate;
+        TextView nContent;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
 
             nTitle = (TextView) itemView.findViewById(R.id.notice_title);
             nDate = (TextView) itemView. findViewById(R.id.notice_date);
+            nContent = (TextView) itemView.findViewById(R.id.notice_content);
             cardView = (CardView) itemView.findViewById(R.id.cardview_notice);
         }
     }

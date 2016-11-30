@@ -49,7 +49,7 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //before login check show ma
+                //before login check show progressdialog
                 final ProgressDialog pdial = new ProgressDialog(Login.this);
                 pdial.setMessage("로그인하는 중...");
                 pdial.setCancelable(false);
@@ -58,22 +58,27 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         boolean result = false;
                         try{
+                            //connect to eclass for login with eclass student id, pwd
                             Connection.Response res = Jsoup.connect("https://eclass.dongguk.edu/User.do?cmd=loginUser")
                                     .followRedirects(true)
+                                    //send id & pwd
                                     .data("userDTO.userId", myId.getText().toString())
                                     .data("userDTO.password", myPwd.getText().toString())
                                     .method(Connection.Method.POST)
                                     .timeout(15000)
                                     .execute();
+                            //get userName from eclass with jsoup parsing
                             document = Jsoup.connect("https://eclass.dongguk.edu/Main.do?cmd=viewEclassMain")
                                     .followRedirects(true)
                                     .cookies(res.cookies())
                                     .timeout(15000)
                                     .get();
                             Element getUser = document.select("SPAN>strong").first();
+                            //when login failed
                             if(getUser == null) {
                                 loginFlag=0;
                                 result = false;
+                            //when login success
                             }else{
                                 loginFlag=1;
                                 result = true;
@@ -83,8 +88,7 @@ public class Login extends AppCompatActivity {
                             loginFlag=0;
                             result = false;
                         }
-
-                        //msg = h.obtainMessage();
+                        //bundle for user info
                         bundle = new Bundle();
 
                         bundle.putBoolean("result", result);
@@ -93,11 +97,15 @@ public class Login extends AppCompatActivity {
                         bundle.putString("name", userName);
 
                         if (loginFlag==1) {
+                            //move activity with username info
                             Intent intent = new Intent(Login.this, Home.class);
+                            intent.putExtra("USERID",myId.getText().toString());
                             intent.putExtra("USERNAME",userName);
                             startActivity(intent);
+                            pdial.dismiss();
                             finish();
                         } else {
+                            //show fail toast to notice login fail
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
@@ -112,6 +120,7 @@ public class Login extends AppCompatActivity {
                 t.start();
             }
         });
+        //for save id & pwd info
         auto_Login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -130,6 +139,7 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+        //setting id & pw info when auto_login checked
         if(setting.getBoolean("Auto_Login_enabled", false)){
             myId.setText(setting.getString("ID", ""));
             myPwd.setText(setting.getString("PW", ""));

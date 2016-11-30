@@ -12,7 +12,8 @@ public class NoticeRead extends AppCompatActivity {
     private Toolbar toolBar;
     private TextView noticeTitle;
     private TextView noticeContent;
-
+    private String userName;
+    private String userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

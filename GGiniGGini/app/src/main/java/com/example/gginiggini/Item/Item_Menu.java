@@ -8,13 +8,24 @@ import android.graphics.drawable.Drawable;
 
 public class Item_Menu {
     private Drawable mPhoto;
+    private Drawable mLike;
     private String lPhoto;
+
+    public String getcName() {
+        return cName;
+    }
+
+    public void setcName(String cName) {
+        this.cName = cName;
+    }
+
+    private String cName;
     private String mName;
-    private String lCount;
+    private int lCount;
     private String mPrice;
     private String mWhen;
     private String mDetail;
-    private String score;
+    private int score;
 
     public Drawable getmPhoto() {
         return mPhoto;
@@ -40,11 +51,11 @@ public class Item_Menu {
         this.mName = mName;
     }
 
-    public String getlCount() {
+    public int getlCount() {
         return lCount;
     }
 
-    public void setlCount(String lCount) {
+    public void setlCount(int lCount) {
         this.lCount = lCount;
     }
 
@@ -56,11 +67,11 @@ public class Item_Menu {
         this.mPrice = mPrice;
     }
 
-    public String getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -78,5 +89,13 @@ public class Item_Menu {
 
     public void setmDetail(String mDetail) {
         this.mDetail = mDetail;
+    }
+
+    public Drawable getmLike() {
+        return mLike;
+    }
+
+    public void setmLike(Drawable mLike) {
+        this.mLike = mLike;
     }
 }

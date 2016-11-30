@@ -48,15 +48,15 @@
             android:layout_below="@+id/complain_titleF"
             android:gravity="center"
             android:text="내용 : "
-            android:id="@+id/complain_uidF"/>
+            android:id="@+id/complain_contentF"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/complain_uidF"
+            android:layout_toRightOf="@+id/complain_contentF"
             android:layout_below="@+id/complain_title"
             android:hint="내용을 입력하세요..."
             android:gravity="top"
             android:textSize="15dp"
-            android:id="@+id/complain_uid"/>
+            android:id="@+id/complain_content"/>
     </RelativeLayout>
 </RelativeLayout>

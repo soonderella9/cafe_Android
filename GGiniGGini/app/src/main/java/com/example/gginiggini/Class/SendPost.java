@@ -14,6 +14,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Created by 이용준 on 2016-11-26.
+ * This class is used for serverconnection with access database
+ */
 public class SendPost extends AsyncTask<Void, Void, String> {
     private String http;
     private BaseURL base= new BaseURL();
@@ -29,7 +33,7 @@ public class SendPost extends AsyncTask<Void, Void, String> {
     }
 
     // first param = json object, second param = url
-    SendPost(JSONObject jsonParam, String Http){this.jsonParam = jsonParam; this.http = base.getURL() + Http;};
+    public SendPost(JSONObject jsonParam, String Http){this.jsonParam = jsonParam; this.http = base.getURL() + Http;};
 
     protected void onPostExecute(String result) {
     }
